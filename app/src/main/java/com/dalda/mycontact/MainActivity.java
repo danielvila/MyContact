@@ -17,37 +17,19 @@ public class MainActivity extends AppCompatActivity {
     private String email = "";
     private String descripcion = "";
 
+    private DatePicker birthdate;
+    private int day;
+    private int month;
+    private int monthString;
+    private int year;
+
     public Contacto contac;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        EditText editTextnacimiento = (EditText) findViewById(R.id.editTextDate);
-        editTextnacimiento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePickerDialog(view);
-            }
-        });
-       /* editandoContac();*/
-    }
-
-    public void showDatePickerDialog(View v) {
-
-        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                final String selectedDate = twoDigits(day) + "/" + twoDigits(month+1) + "/" + year;
-                EditText editTextnacimiento = (EditText) findViewById(R.id.editTextDate);
-                editTextnacimiento.setText(selectedDate);
-            }
-        });
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-    }
-
-    private String twoDigits(int n) {
-        return (n<=9) ? ("0"+n) : String.valueOf(n);
+        editandoContac();
     }
 
     public void saveContact(View view) {
@@ -55,8 +37,12 @@ public class MainActivity extends AppCompatActivity {
         EditText editTextnombre = (EditText) findViewById(R.id.editTextTextPersonName);
         nombre = editTextnombre.getText().toString();
 
-        EditText editTextnacimiento = (EditText) findViewById(R.id.editTextDate);
-        nacimiento = editTextnacimiento.getText().toString();
+        birthdate   = (DatePicker) findViewById(R.id.dpBirthdate);
+        day          = birthdate.getDayOfMonth();
+        month        = birthdate.getMonth();
+        monthString  = month + 1; // Increment 1 month to correct string.
+        year         = birthdate.getYear();
+        nacimiento  = day + "/" + monthString + "/" + year; // Date string to show.
 
         EditText editTexttelefono = (EditText) findViewById(R.id.editTextPhone);
         telefono = editTexttelefono.getText().toString();
@@ -67,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         EditText editTextdescripcion = (EditText) findViewById(R.id.editTextTextMultiLine);
         descripcion = editTextdescripcion.getText().toString();
 
-        contac = new Contacto(nombre, nacimiento, telefono, email, descripcion);
+        contac = new Contacto(nombre, nacimiento, telefono, email, descripcion, year, month, day);
         intent.putExtra("mycontact", contac);
         startActivity(intent);
         finish();
@@ -76,20 +62,24 @@ public class MainActivity extends AppCompatActivity {
     public void editandoContac(){
         Intent intent = getIntent();
         contac = (Contacto)intent.getSerializableExtra("myeditar");
+        if (contac != null) {
+            EditText tv_nombre = findViewById(R.id.editTextTextPersonName);
+            tv_nombre.setText(contac.getNombre());
 
-        /*EditText tv_nombre = findViewById(R.id.editTextTextPersonName);
-        tv_nombre.setText(contac.getNombre());
+            int extraYear    = contac.getAnio();
+            int extraMonth   = contac.getMes();
+            int extraDay     = contac.getDia();
+            birthdate   = (DatePicker) findViewById(R.id.dpBirthdate);
+            birthdate.updateDate(extraYear, extraMonth, extraDay);
 
-        EditText tv_nacimiento = findViewById(R.id.editTextDate);
-        tv_nacimiento.setText(contac.getNacimiento());
+            EditText tv_telefono = findViewById(R.id.editTextPhone);
+            tv_telefono.setText(contac.getTelefono());
 
-        EditText tv_telefono = findViewById(R.id.editTextPhone);
-        tv_telefono.setText(contac.getTelefono());
+            EditText tv_email = findViewById(R.id.editTextTextEmailAddress);
+            tv_email.setText(contac.getEmail());
 
-        EditText tv_email = findViewById(R.id.editTextTextEmailAddress);
-        tv_email.setText(contac.getEmail());
-
-        EditText tv_descripcion = findViewById(R.id.editTextTextMultiLine);
-        tv_descripcion.setText(contac.getDescripcion());*/
+            EditText tv_descripcion = findViewById(R.id.editTextTextMultiLine);
+            tv_descripcion.setText(contac.getDescripcion());
+        }
     }
 }

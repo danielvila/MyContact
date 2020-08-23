@@ -1,12 +1,14 @@
 package com.dalda.mycontact;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private String nombre = "";
@@ -21,12 +23,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EditText editTextnacimiento = (EditText) findViewById(R.id.editTextDate);
+        editTextnacimiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog(view);
+            }
+        });
        /* editandoContac();*/
     }
 
     public void showDatePickerDialog(View v) {
-        DatePickerFragment newFragment = new DatePickerFragment();
+
+        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                final String selectedDate = twoDigits(day) + "/" + twoDigits(month+1) + "/" + year;
+                EditText editTextnacimiento = (EditText) findViewById(R.id.editTextDate);
+                editTextnacimiento.setText(selectedDate);
+            }
+        });
         newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    private String twoDigits(int n) {
+        return (n<=9) ? ("0"+n) : String.valueOf(n);
     }
 
     public void saveContact(View view) {

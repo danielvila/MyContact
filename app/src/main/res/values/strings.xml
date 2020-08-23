@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Contacto</string>
+    <string name="et_nombre">Nombre completo</string>
+    <string name="et_nacimiento">Fecha de nacimiento</string>
+    <string name="et_telefono">Teléfono</string>
+    <string name="et_email">Email</string>
+    <string name="et_descripcion">Descripción</string>
+    <string name="btn_guardar">Siguiente</string>
+    <string name="tv_titulo">Confirmar Datos</string>
+    <string name="btn_editar">Editar datos</string>
+</resources>

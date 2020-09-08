@@ -5,7 +5,10 @@
     <string name="et_telefono">Teléfono</string>
     <string name="et_email">Email</string>
     <string name="et_descripcion">Descripción</string>
-    <string name="btn_guardar">Siguiente</string>
+    <string name="btn_guardar_preferencia">Guardar Preferencia</string>
+    <string name="btn_mostrar_preferencia">Mostrar Preferencia</string>
+    <string name="btn_guardar_archivo">Guardar Archivo</string>
     <string name="tv_titulo">Confirmar Datos</string>
     <string name="btn_editar">Editar datos</string>
+    <string name="btn_activar_bluetooth">Habilitar Bluetooth</string>
 </resources>
